@@ -15,8 +15,10 @@ const io = socketio(server, {cors: {origin: "*"}});
 
 io.on('connection', (socket) => {
     console.log('A user has connected');
-    let id = 'fardin'
-    socket.on('join', () => {
+    let id;
+    socket.on('join', (roomID) => {
+        id = roomID || socket.id;
+
         console.log(socket.id + ' joined')
         socket.join(id);
         socket.to(id).emit('server', 'Connection established');
