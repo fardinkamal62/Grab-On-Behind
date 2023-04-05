@@ -15,11 +15,11 @@ const App = () => {
     };
 
     useEffect(() => {
-        if (name !== '') {
+        if (name !== '' || name.length === 0) {
             setCanJoin(true)
-            setButtonText('Join')
+            setButtonText('Join the game')
         }
-        if (name === '') {
+        if (name === '' || name.length === 0) {
             setCanJoin(false)
             setButtonText('Name please')
         }
@@ -41,7 +41,7 @@ const App = () => {
                     <input
                         type="text"
                         value={room}
-                        placeholder={'Enter room ID'}
+                        placeholder={'Enter room ID(optional)'}
                         onChange={(e) => setRoom(e.target.value)}
                     />
                     <button type="submit" onClick={(e) => joinRoom(e)}>

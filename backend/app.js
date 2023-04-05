@@ -21,7 +21,8 @@ io.on('connection', (socket) => {
 
         console.log(socket.id + ' joined')
         socket.join(id);
-        socket.to(id).emit('server', 'Connection established');
+        io.in(id).emit('server', 'Connection established');
+        io.in(id).emit('roomID', id);
     });
 
     // Listen for messages from the client

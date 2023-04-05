@@ -1,29 +1,33 @@
 import React, {useState, useEffect} from 'react';
 import io from 'socket.io-client';
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 const ENDPOINT = 'http://localhost:8000';
 const socket = io(ENDPOINT);
 
 const App = () => {
     const location = useLocation();
-    const roomID = location.state;
 
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    const [serverMessages, setServerMessages] = useState([]);
+    const [serverMessages, setServerMessages] = useState();
+    const [room, setRoom] = useState(location.state);
 
     useEffect(() => {
-        socket.emit('join', roomID);
+        socket.emit('join', room);
     }, []);
 
     socket.on('server', (message) => {
-        setServerMessages([...messages, message]);
+        setServerMessages(message);
     });
 
     socket.on('message', (message) => {
         setMessages([...messages, message]);
-    })
+    });
+
+    socket.on('roomID', (message) => {
+        setRoom(message);
+    });
 
     const sendMessage = (e) => {
         e.preventDefault();
@@ -35,7 +39,9 @@ const App = () => {
 
     return (
         <div>
-            <h1>Real-time Chat</h1>
+            <h1>Grab On Behind</h1>
+            <h4>Room id: {room}</h4>
+            <button><Link to='/'>New Game</Link></button>
             <ul>
                 {messages.map((message, index) => (
                     <li key={index}>{message}</li>
