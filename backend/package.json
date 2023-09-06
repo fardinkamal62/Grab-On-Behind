@@ -1,12 +1,11 @@
 {
-  "name": "name_game2",
+  "name": "grab-on-backend",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "game": "nodemon views/game.js"
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",

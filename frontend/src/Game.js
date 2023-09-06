@@ -10,7 +10,7 @@ const App = () => {
 
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    const [serverMessages, setServerMessages] = useState();
+    const [serverMessages, setServerMessages] = useState([]);
     const [room, setRoom] = useState(location.state);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const App = () => {
     }, []);
 
     socket.on('server', (message) => {
-        setServerMessages(message);
+        setServerMessages([...serverMessages, message]);
     });
 
     socket.on('message', (message) => {
@@ -46,6 +46,11 @@ const App = () => {
                 {messages.map((message, index) => (
                     <li key={index}>{message}</li>
                 ))}
+            </ul>
+            <ul>
+                {serverMessages && <li>{serverMessages.map((message, index) =>{
+                    return <li key={index}>{message}</li>
+                })}</li>}
             </ul>
             <form>
                 <input

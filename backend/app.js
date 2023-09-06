@@ -14,14 +14,12 @@ app.use(cors());
 const io = socketio(server, {cors: {origin: "*"}});
 
 io.on('connection', (socket) => {
-    console.log('A user has connected');
     let id;
     socket.on('join', (roomID) => {
         id = roomID || socket.id;
 
-        console.log(socket.id + ' joined')
         socket.join(id);
-        io.in(id).emit('server', 'Connection established');
+        io.in(id).emit('server', 'A new member has joined');
         io.in(id).emit('roomID', id);
     });
 
@@ -32,7 +30,7 @@ io.on('connection', (socket) => {
 
     // Disconnect listener
     socket.on('disconnect', () => {
-        console.log('A user has disconnected');
+        io.in(id).emit('server', 'A member has disconnected');
     });
 });
 
